@@ -1,0 +1,41 @@
+# Dockerfile.spark
+FROM alexmerced/spark35nb:latest
+
+# Set working directory inside the container
+WORKDIR /workspace
+
+# Copy your pyproject.toml and uv.lock into the container.
+COPY pyproject.toml .
+COPY uv.lock .
+
+# --- Environment Configuration for Python Packages ---
+# Set PYTHONUSERBASE to ensure pip/uv install into /usr/local/
+# This redirects user-site packages from /root/.local to /usr/local/lib/pythonX.Y/site-packages
+ENV PYTHONUSERBASE=/usr/local
+
+# Explicitly add common system-wide Python package paths to PYTHONPATH.
+# This ensures that any Python process, including Jupyter kernels, finds modules here.
+# This path matches the 'dist-packages' we saw in your sys.path output.
+# We append /usr/local/lib/python3.10/site-packages because that's where PYTHONUSERBASE directs.
+ENV PYTHONPATH="/usr/local/lib/python3.10/dist-packages:/usr/local/lib/python3.10/site-packages:$PYTHONPATH"
+
+# --- Install uv first, then use it to install dependencies ---
+# Ensure pip is up-to-date for the specific python3 interpreter.
+RUN /usr/bin/python3 -m pip install --no-cache-dir --upgrade pip
+
+# Install uv globally using --prefix to ensure it goes into /usr/local/bin
+# (and its site-packages go into /usr/local/lib/pythonX.Y/site-packages due to PYTHONUSERBASE)
+RUN /usr/bin/python3 -m pip install --no-cache-dir --prefix /usr/local uv
+
+# Install Python dependencies using uv from the lock file.
+# Since uv is now globally installed and PYTHONPATH is set, it should place dependencies correctly.
+# The `uv sync` command respects the activated environment and PYTHONUSERBASE/PYTHONPATH.
+RUN uv sync --no-cache-dir
+# --- End of uv installation section ---
+
+# Optional: Copy your project's Python code or notebooks into the image
+# COPY ./notebooks/ /workspace/notebooks/
+# COPY ./src/ /workspace/src/
+
+# The entrypoint is usually defined by the base image, you can keep it or override if needed
+# ENTRYPOINT ["/bin/bash", "-c", "/opt/spark/sbin/start-master.sh && ..."]
