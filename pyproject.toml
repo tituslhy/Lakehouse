@@ -12,6 +12,7 @@ dependencies = [
     "qdrant-client>=1.14.3",
     "ipywidgets>=8.1.7",
     "jupyter>=1.1.1",
-    "pyiceberg>=0.9.1",
+    "pyiceberg[hive,s3fs]>=0.9.1",
     "pyspark>=4.0.0",
+    "pyarrow>=20.0.0",
 ]

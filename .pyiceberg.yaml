@@ -1,0 +1,9 @@
+catalog:
+  hive:
+    uri: thrift://127.0.0.1:9083
+    s3.endpoint: http://127.0.0.1:9000
+    s3.access-key-id: admin
+    s3.secret-access-key: password
+  rest:
+    uri: https://rest-server:8181/
+    warehouse: my-warehouse
