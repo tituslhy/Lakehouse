@@ -1,0 +1,7 @@
+llama-index
+llama-index-embeddings-gemini
+llama-index-llms-gemini
+llama-index-vector-stores-qdrant
+qdrant-client
+pyiceberg
+pyspark

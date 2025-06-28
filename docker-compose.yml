@@ -64,6 +64,8 @@ services:
       - 4040-4045:4040-4045 # Additional Spark job UI ports for more jobs
       - 18080:18080 # Spark History Server
       - 8888:8888 # Jupyter Notebook
+    env_file:
+      - .env
     environment:
       - AWS_REGION=us-east-1
       - AWS_ACCESS_KEY_ID=admin # Minio username
@@ -75,7 +77,8 @@ services:
       - SPARK_HISTORY_OPTS=-Dspark.history.fs.logDirectory=/tmp/spark-events
       - SPARK_HOME=/opt/spark # Set SPARK_HOME explicitly
     volumes:
-      - ./notebook-seed:/workspace/seed-data # Volume for seeding data into the container
+      - ./notebooks:/workspace/seed-data # Volume for seeding data into the container
+      - ./data:/workspace/data:ro
     container_name: spark
     entrypoint: >
       /bin/bash -c "
