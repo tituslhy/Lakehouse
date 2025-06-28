@@ -10,6 +10,19 @@ services:
       - QUARKUS_HTTP_PORT=19120
       - QUARKUS_LOG_CONSOLE_FORMAT=%d{yyyy-MM-dd HH:mm:ss} %-5p [%c{1.}] (%t) %s%e%n
       - QUARKUS_LOG_LEVEL=INFO
+
+      # ─── Iceberg REST-Catalog configuration ───
+      # default warehouse name (logical catalog)
+      - NESSIE_CATALOG_DEFAULT_WAREHOUSE=warehouse
+
+      # define that warehouse’s backing location in S3/Minio
+      - NESSIE_CATALOG_WAREHOUSES_WAREHOUSE_LOCATION=s3://warehouse
+
+      # S3 connection options (point at Minio)
+      - NESSIE_CATALOG_SERVICE_S3_DEFAULT_OPTIONS_ENDPOINT=http://minio:9000
+      - NESSIE_CATALOG_SERVICE_S3_DEFAULT_OPTIONS_PATH_STYLE_ACCESS=true
+      - NESSIE_CATALOG_SERVICE_S3_DEFAULT_OPTIONS_ACCESS_KEY=admin
+      - NESSIE_CATALOG_SERVICE_S3_DEFAULT_OPTIONS_SECRET_KEY=password
     volumes:
       - ./nessie-data:/nessie/data # Mount local directory to persist RocksDB data
     ports:
