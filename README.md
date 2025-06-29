@@ -2,28 +2,9 @@
 The Iceberg Lakehouse playground
 
 ## Setup
-In your terminal, first type:
+This repository uses the [uv package installer](https://docs.astral.sh/uv/pip/packages/). 
 
+To create a virtual environment with the dependencies installed, simply type in your terminal:
 ```
-docker compose build spark
-```
-
-This builds up the image required for the Spark service including a Jupyter Notebook for development.
-
-
-Next, type:
-```
-docker compose up -d
-```
-To spin up all services.
-
-You'll need your IP address to have your blob storage. So run
-```
-docker inspect minio
-```
-and save the IP Address to a .env file.
-
-To spin down all services:
-```
-docker compose down -v
+uv sync
 ```
