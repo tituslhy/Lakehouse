@@ -1,5 +1,5 @@
 # Lakehouse
-The Iceberg Lakehouse playground
+The Iceberg Lakehouse playground. We attempt to create our own data lake using Apache Iceberg, Apache Hive and Apache Spark!
 
 ## Setup
 This repository uses the [uv package installer](https://docs.astral.sh/uv/pip/packages/). 
